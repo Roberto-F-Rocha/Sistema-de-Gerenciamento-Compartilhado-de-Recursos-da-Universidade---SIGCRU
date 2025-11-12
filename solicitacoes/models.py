@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from patrimonios.models import Patrimonio
+from django.utils import timezone
 
 class Solicitacao(models.Model):
     TIPOS = [
@@ -25,6 +26,7 @@ class Solicitacao(models.Model):
         ],
         default='aberta'
     )
+    data_criacao = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return f"{self.tipo} - {self.status} ({self.usuario.username})"

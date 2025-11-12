@@ -80,7 +80,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'ufersa_sigcru.wsgi.application'
 
-# 🗄️ Configuração do banco PostgreSQL
+#  Configuração do banco PostgreSQL
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -92,10 +92,15 @@ DATABASES = {
     }
 }
 
-# ⚙️ Configurações REST Framework e JWT
+# Configurações REST Framework e JWT
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
     ),
     'DEFAULT_FILTER_BACKENDS': (
         'django_filters.rest_framework.DjangoFilterBackend',
@@ -108,15 +113,15 @@ SIMPLE_JWT = {
     'AUTH_HEADER_TYPES': ('Bearer',),
 }
 
-# 🌐 Permitir acesso do React
+
 CORS_ALLOW_ALL_ORIGINS = True
 
-# 🌎 Configurações de idioma e tempo
+
 LANGUAGE_CODE = 'pt-br'
 TIME_ZONE = 'America/Fortaleza'
 USE_I18N = True
 USE_TZ = True
 
-# 🗂️ Arquivos estáticos
+
 STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
