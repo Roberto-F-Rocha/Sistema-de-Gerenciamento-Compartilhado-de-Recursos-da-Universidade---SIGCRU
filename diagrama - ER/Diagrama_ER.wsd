@@ -1,0 +1,152 @@
+@startuml
+!theme plain
+
+entity auth_user {
+    id : integer <<PK>>
+    --
+    password : varchar(128)
+    last_login : timestamp
+    is_superuser : boolean
+    username : varchar(150)
+    first_name : varchar(150)
+    last_name : varchar(150)
+    email : varchar(254)
+    is_staff : boolean
+    is_active : boolean
+    date_joined : timestamp
+}
+
+entity auth_group {
+    id : integer <<PK>>
+    --
+    name : varchar(150)
+}
+
+entity auth_permission {
+    id : integer <<PK>>
+    --
+    name : varchar(255)
+    content_type_id : integer
+    codename : varchar(100)
+}
+
+entity auth_group_permissions {
+    id : bigint <<PK>>
+    --
+    group_id : integer
+    permission_id : integer
+}
+
+entity auth_user_groups {
+    id : bigint <<PK>>
+    --
+    user_id : integer
+    group_id : integer
+}
+
+entity auth_user_user_permissions {
+    id : bigint <<PK>>
+    --
+    user_id : integer
+    permission_id : integer
+}
+
+entity django_content_type {
+    id : integer <<PK>>
+    --
+    app_label : varchar(100)
+    model : varchar(100)
+}
+
+entity django_admin_log {
+    id : integer <<PK>>
+    --
+    action_time : timestamp
+    object_id : text
+    object_repr : varchar(200)
+    action_flag : smallint
+    change_message : text
+    content_type_id : integer
+    user_id : integer
+}
+
+entity django_migrations {
+    id : bigint <<PK>>
+    --
+    app : varchar(255)
+    name : varchar(255)
+    applied : timestamp
+}
+
+entity django_session {
+    session_key : varchar(40) <<PK>>
+    --
+    session_data : text
+    expire_date : timestamp
+}
+
+entity patrimonios_localizacao {
+    id : bigint <<PK>>
+    --
+    nome : varchar(150)
+}
+
+entity patrimonios_patrimonio {
+    id : bigint <<PK>>
+    --
+    nome : varchar(100)
+    descricao : text
+    numero_tombo : varchar(50)
+    status : varchar(20)
+    data_aquisicao : date
+    responsavel_id : integer
+    localizacao_id : bigint
+}
+
+entity manutencoes_manutencao {
+    id : bigint <<PK>>
+    --
+    descricao : text
+    data_inicio : date
+    data_fim : date
+    status : varchar(20)
+    patrimonio_id : bigint
+    usuario_id : integer
+}
+
+entity solicitacoes_solicitacao {
+    id : bigint <<PK>>
+    --
+    tipo : varchar(20)
+    descricao : text
+    data_registro : timestamp
+    status : varchar(20)
+    patrimonio_id : bigint
+    usuario_id : integer
+    data_criacao : timestamp
+}
+
+auth_group_permissions }o--|| auth_group
+auth_group_permissions }o--|| auth_permission
+
+auth_user_groups }o--|| auth_user
+auth_user_groups }o--|| auth_group
+
+auth_user_user_permissions }o--|| auth_user
+auth_user_user_permissions }o--|| auth_permission
+
+auth_permission }o--|| django_content_type
+
+django_admin_log }o--|| django_content_type
+django_admin_log }o--|| auth_user
+
+patrimonios_patrimonio }o--|| patrimonios_localizacao
+patrimonios_patrimonio }o--|| auth_user
+
+manutencoes_manutencao }o--|| patrimonios_patrimonio
+manutencoes_manutencao }o--|| auth_user
+
+solicitacoes_solicitacao }o--|| patrimonios_patrimonio
+solicitacoes_solicitacao }o--|| auth_user
+
+@enduml
