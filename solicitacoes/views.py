@@ -2,16 +2,27 @@ from rest_framework import viewsets, permissions
 from .models import Solicitacao
 from .serializers import SolicitacaoSerializer
 
+from .services import (
+    listar_solicitacoes,
+    obter_solicitacao,
+    criar_solicitacao,
+    atualizar_solicitacao,
+    deletar_solicitacao,
+)
+
 class SolicitacaoViewSet(viewsets.ModelViewSet):
-    queryset = Solicitacao.objects.all()
     serializer_class = SolicitacaoSerializer
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        user = self.request.user
-        if user.is_staff:
-            return Solicitacao.objects.all()
-        return Solicitacao.objects.filter(usuario=user)
-    
+        return listar_solicitacoes(self.request.user)
+
     def perform_create(self, serializer):
-        serializer.save(usuario=self.request.user)
+        criar_solicitacao(serializer.validated_data, self.request.user)
+
+    def perform_update(self, serializer):
+        solicitacao = obter_solicitacao(self.kwargs["pk"], self.request.user)
+        atualizar_solicitacao(solicitacao, serializer.validated_data, self.request.user)
+
+    def perform_destroy(self, instance):
+        deletar_solicitacao(instance, self.request.user)
