@@ -5,4 +5,41 @@ from .models import Manutencao
 class ManutencaoAdmin(admin.ModelAdmin):
     list_display = ('id', 'patrimonio', 'usuario', 'status', 'data_inicio', 'data_fim')
     search_fields = ('patrimonio__nome', 'descricao', 'usuario__username')
-    list
+
+    def get_fieldsets(self, request, obj=None):
+        """
+        Controla a exibição de 'data_fim' no fieldset 'Datas' 
+        baseado no status do objeto (exibição condicional).
+        """
+        fieldsets = [
+            (None, {
+                "fields": ("patrimonio", "usuario", "descricao", "status")
+            }),
+        ]
+
+        data_fields = ["data_inicio"]
+        
+        # Apenas exibe 'data_fim' se o status já for 'concluida'
+        if obj and obj.status == "concluida":
+            data_fields.append("data_fim")
+        
+        fieldsets.append(("Datas", {
+            "fields": tuple(data_fields),
+        }))
+        
+        return fieldsets
+
+    def save_model(self, request, obj, form, change):
+        """
+        Salva o objeto e garante que data_fim seja apagada (setada para None) 
+        se o status NÃO for 'concluida'.
+        """
+        # Se o status for alterado para algo diferente de 'concluida',
+        # a data de fim deve ser zerada.
+        if obj.status != "concluida":
+            obj.data_fim = None
+            
+        super().save_model(request, obj, form, change)
+
+    def get_readonly_fields(self, request, obj=None):
+        return ()

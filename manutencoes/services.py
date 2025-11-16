@@ -31,6 +31,7 @@ class ManutencaoService:
             patrimonio=patrimonio,
             usuario=usuario,
             descricao=validated_data.get("descricao"),
+            data_inicio=validated_data.get("data_inicio"),  # AGORA VEM DO FRONT
             data_fim=validated_data.get("data_fim"),
             status=validated_data.get("status", "pendente"),
         )

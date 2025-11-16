@@ -6,8 +6,13 @@ class Manutencao(models.Model):
     patrimonio = models.ForeignKey(Patrimonio, on_delete=models.CASCADE, related_name='manutencoes')
     usuario = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     descricao = models.TextField()
-    data_inicio = models.DateField(auto_now_add=True)
+    
+    # AGORA É MANUAL – removido auto_now_add
+    data_inicio = models.DateField()
+
+    # só preenchido quando concluída
     data_fim = models.DateField(null=True, blank=True)
+
     status = models.CharField(
         max_length=20,
         choices=[

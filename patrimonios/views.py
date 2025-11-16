@@ -11,6 +11,7 @@ from .services import (
     deletar_patrimonio,
 )
 
+
 class PatrimonioViewSet(viewsets.ModelViewSet):
     serializer_class = PatrimonioSerializer
 
