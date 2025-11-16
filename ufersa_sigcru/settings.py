@@ -1,6 +1,7 @@
 from pathlib import Path
 from datetime import timedelta
 import environ
+import os
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -21,9 +22,8 @@ if READ_DOT_ENV_FILE:
     # OS environment variables take precedence over variables from .env
     env.read_env(str(BASE_DIR / ".env"))
 
-SECRET_KEY = 'sua-secret-key-aqui'
-
-DEBUG = True
+SECRET_KEY = env("DJANGO_SECRET_KEY", default="dev-secret")
+DEBUG = env.bool("DJANGO_DEBUG", default=True)
 
 ALLOWED_HOSTS = ['*']
 
@@ -82,8 +82,12 @@ WSGI_APPLICATION = 'ufersa_sigcru.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': env.str('DB_ENGINE', default='django.db.backends.sqlite3'),
-        'NAME': BASE_DIR / env.str('DB_NAME', default='db.sqlite3'),
+        'ENGINE': os.getenv("DB_ENGINE"),
+        'NAME': os.getenv("DB_NAME"),
+        'USER': os.getenv("DB_USER"),
+        'PASSWORD': os.getenv("DB_PASSWORD"),
+        'HOST': os.getenv("DB_HOST"),
+        'PORT': os.getenv("DB_PORT"),
     }
 }
 
