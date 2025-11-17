@@ -18,7 +18,7 @@ class PatrimonioViewSet(viewsets.ModelViewSet):
     def get_permissions(self):
         if self.request.method == "POST":
             return [AllowAny()]
-        return super().get_permissions()
+        return AllowAny()
 
     def get_queryset(self):
         return listar_patrimonios()

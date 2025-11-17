@@ -1,5 +1,7 @@
 from rest_framework import serializers
 from .models import Solicitacao
+from django.contrib.auth import get_user_model
+User = get_user_model()
 
 class SolicitacaoSerializer(serializers.ModelSerializer):
     class Meta:
@@ -8,7 +10,5 @@ class SolicitacaoSerializer(serializers.ModelSerializer):
         read_only_fields = ['usuario']
 
     def create(self, validated_data):
-        request = self.context.get('request')
-        if request and hasattr(request, 'user'):
-            validated_data['usuario'] = request.user
+        validated_data['usuario'] = User.objects.get(id=1)
         return super().create(validated_data)
