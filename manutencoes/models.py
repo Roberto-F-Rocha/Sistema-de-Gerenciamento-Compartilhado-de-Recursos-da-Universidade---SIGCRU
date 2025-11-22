@@ -1,10 +1,11 @@
 from django.db import models
 from django.contrib.auth.models import User
 from patrimonios.models import Patrimonio
+from django.conf import settings
 
 class Manutencao(models.Model):
     patrimonio = models.ForeignKey(Patrimonio, on_delete=models.CASCADE, related_name='manutencoes')
-    usuario = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
     descricao = models.TextField()
     
     # AGORA É MANUAL – removido auto_now_add
