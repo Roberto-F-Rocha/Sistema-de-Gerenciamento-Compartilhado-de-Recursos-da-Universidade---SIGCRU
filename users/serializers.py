@@ -1,5 +1,5 @@
+from django.contrib.auth import authenticate
 from rest_framework import serializers
-from users.services import AuthenticationService
 
 class LoginSerializer(serializers.Serializer):
     username = serializers.CharField()
@@ -9,7 +9,7 @@ class LoginSerializer(serializers.Serializer):
         username = attrs.get("username")
         password = attrs.get("password")
 
-        user = AuthenticationService.autenticar(username, password)
+        user = authenticate(username=username, password=password)
 
         if not user:
             raise serializers.ValidationError("Credenciais inválidas.")
