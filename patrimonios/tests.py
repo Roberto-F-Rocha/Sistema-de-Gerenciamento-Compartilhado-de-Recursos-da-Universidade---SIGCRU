@@ -12,8 +12,9 @@ class PatrimonioTests(APITestCase):
         self.patrimonio_data = {
             "nome": "Computador Dell",
             "descricao": "Core i5, 8GB RAM",
-            "situacao": "Ativo"
+            "status": "ativo"  # <-- corrigido
         }
+
         self.patrimonio = Patrimonio.objects.create(**self.patrimonio_data)
         self.url_base = "/api/patrimonios/"
 
@@ -30,7 +31,7 @@ class PatrimonioTests(APITestCase):
         response = self.client.put(url, {
             "nome": "Notebook Lenovo",
             "descricao": "Core i7, 16GB RAM",
-            "situacao": "Em uso"
+            "status": "inativo"  # <-- corrigido
         }, format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 

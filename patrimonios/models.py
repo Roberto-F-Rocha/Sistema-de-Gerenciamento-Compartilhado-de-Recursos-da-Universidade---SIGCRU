@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.conf import settings
 
 
 class Localizacao(models.Model):
@@ -31,7 +32,7 @@ class Patrimonio(models.Model):
         ],
         default='ativo'
     )
-    responsavel = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    responsavel = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True)
     data_aquisicao = models.DateField(null=True, blank=True)
 
     def __str__(self):
