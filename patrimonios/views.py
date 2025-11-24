@@ -11,14 +11,9 @@ from .services import (
     deletar_patrimonio,
 )
 
-
 class PatrimonioViewSet(viewsets.ModelViewSet):
     serializer_class = PatrimonioSerializer
-
-    def get_permissions(self):
-        if self.request.method == "POST":
-            return [AllowAny()]
-        return AllowAny()
+    permission_classes = [AllowAny]
 
     def get_queryset(self):
         return listar_patrimonios()
