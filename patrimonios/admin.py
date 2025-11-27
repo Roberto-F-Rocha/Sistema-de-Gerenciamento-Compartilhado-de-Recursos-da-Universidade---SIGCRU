@@ -1,24 +1,15 @@
 from django.contrib import admin
-from .models import Patrimonio, Localizacao, EspacoFisico
-
-
-@admin.register(Localizacao)
-class LocalizacaoAdmin(admin.ModelAdmin):
-    search_fields = ("nome",)
-
+from .models import Patrimonio, EspacoFisico
 
 @admin.register(Patrimonio)
 class PatrimonioAdmin(admin.ModelAdmin):
-    list_display = ('id', 'nome', 'numero_tombo', 'localizacao', 'status', 'responsavel', 'data_aquisicao')
-    search_fields = ('nome', 'numero_tombo', 'descricao', 'localizacao__nome')
-    list_filter = ('status', 'localizacao')
-    autocomplete_fields = ('localizacao',)
-
-
+    list_display = ('id', 'nome', 'numero_tombo', 'status', 'responsavel', 'data_aquisicao')
+    search_fields = ('nome', 'numero_tombo', 'descricao')
+    list_filter = ('status',)
+    
 @admin.register(EspacoFisico)
 class EspacoFisicoAdmin(admin.ModelAdmin):
-    list_display = ('id', 'nome', 'tipo', 'localizacao')
-    search_fields = ('nome', 'tipo', 'localizacao__nome')
-    list_filter = ('tipo', 'localizacao')
-    autocomplete_fields = ('localizacao', 'recursos')
-    filter_horizontal = ('recursos',)  # facilita selecionar múltiplos patrimônios
+    list_display = ('id', 'nome', 'tipo', 'responsavel')
+    search_fields = ('nome', 'tipo')
+    list_filter = ('tipo',)
+    filter_horizontal = ('recursos',)

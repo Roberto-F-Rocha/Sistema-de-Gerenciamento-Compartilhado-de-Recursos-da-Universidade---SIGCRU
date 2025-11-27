@@ -2,14 +2,6 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.conf import settings
 
-
-class Localizacao(models.Model):
-    nome = models.CharField(max_length=150, unique=True)
-
-    def __str__(self):
-        return self.nome
-
-
 class Patrimonio(models.Model):
     nome = models.CharField(max_length=100)
     descricao = models.TextField(blank=True)
@@ -44,3 +36,23 @@ class Meta:
         ("create_patrimonio", "Pode criar patrimônio"),
         ("delete_item", "Pode excluir itens"),
     ]
+    
+from django.db import models
+from django.conf import settings
+
+class EspacoFisico(models.Model):
+    TIPO_CHOICES = [
+        ('sala_aula', 'Sala de Aula'),
+        ('laboratorio', 'Laboratório'),
+        ('auditorio', 'Auditório'),
+        ('outro', 'Outro'),
+    ]
+
+    nome = models.CharField(max_length=150, unique=True)  # antes Localizacao.nome
+    tipo = models.CharField(max_length=20, choices=TIPO_CHOICES)
+    descricao = models.TextField(blank=True)
+    recursos = models.ManyToManyField('Patrimonio', blank=True)
+    responsavel = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.nome} ({self.tipo})"

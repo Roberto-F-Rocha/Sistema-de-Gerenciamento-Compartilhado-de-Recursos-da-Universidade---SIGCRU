@@ -1,6 +1,8 @@
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated, AllowAny
-from patrimonios.models import Patrimonio, Localizacao
+from rest_framework.decorators import action
+from rest_framework.response import Response
+from patrimonios.models import EspacoFisico, Localizacao
 from .serializers import EspacoFisicoSerializer, LocalizacaoSerializer
 from .services import (
     listar_espacos_fisicos,
@@ -10,17 +12,11 @@ from .services import (
     deletar_espaco_fisico,
     listar_localizacoes
 )
-from rest_framework.decorators import action
-from rest_framework.response import Response
 
 class EspacoFisicoViewSet(viewsets.ModelViewSet):
     serializer_class = EspacoFisicoSerializer
-    queryset = Patrimonio.objects.all()
-
-    def get_permissions(self):
-        if self.request.method == "POST":
-            return [IsAuthenticated()]
-        return super().get_permissions()
+    queryset = EspacoFisico.objects.all()
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         return listar_espacos_fisicos()
@@ -35,11 +31,13 @@ class EspacoFisicoViewSet(viewsets.ModelViewSet):
     def perform_destroy(self, instance):
         deletar_espaco_fisico(instance)
 
+
 class LocalizacaoViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = LocalizacaoSerializer
     queryset = Localizacao.objects.all()
+    permission_classes = [AllowAny]
 
-    @action(detail=False, methods=["get"], permission_classes=[AllowAny])
+    @action(detail=False, methods=["get"])
     def listar(self, request):
         locais = listar_localizacoes()
         serializer = self.get_serializer(locais, many=True)
