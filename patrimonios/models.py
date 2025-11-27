@@ -37,3 +37,10 @@ class Patrimonio(models.Model):
 
     def __str__(self):
         return f"{self.nome} ({self.numero_tombo})"
+
+
+class Meta:
+    permissions = [
+        ("create_patrimonio", "Pode criar patrimônio"),
+        ("delete_item", "Pode excluir itens"),
+    ]

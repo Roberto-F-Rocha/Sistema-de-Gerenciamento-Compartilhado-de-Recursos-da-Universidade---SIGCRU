@@ -8,7 +8,7 @@ class Manutencao(models.Model):
     usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
     descricao = models.TextField()
     
-    # AGORA É MANUAL – removido auto_now_add
+    # AGORA É MANUAL removido auto_now_add
     data_inicio = models.DateField()
 
     # só preenchido quando concluída
@@ -26,3 +26,12 @@ class Manutencao(models.Model):
 
     def __str__(self):
         return f"Manutenção de {self.patrimonio.nome} - {self.status}"
+    
+    
+    class Meta:
+        permissions = [
+            ("create_manutencao", "Pode criar manutenção"),
+        ]
+
+        def __str__(self):
+            return f"Manutenção #{self.pk}"

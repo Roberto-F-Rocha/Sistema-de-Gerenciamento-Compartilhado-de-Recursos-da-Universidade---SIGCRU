@@ -1,10 +1,11 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import SolicitacaoViewSet
+from .views import SolicitacaoViewSet, MinhasSolicitacoesView
 
 router = DefaultRouter()
-router.register(r'solicitacoes', SolicitacaoViewSet, basename='solicitacao')
+router.register(r"", SolicitacaoViewSet, basename="solicitacoes")
 
 urlpatterns = [
-    path('', include(router.urls)),
+    path("minhas/", MinhasSolicitacoesView.as_view(), name="minhas-solicitacoes"),
+    path("", include(router.urls)),
 ]

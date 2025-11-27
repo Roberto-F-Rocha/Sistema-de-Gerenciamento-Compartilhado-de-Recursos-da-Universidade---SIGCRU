@@ -26,18 +26,14 @@ class User(AbstractUser):
     )
 
     def save(self, *args, **kwargs):
-
         if self.is_superuser:
             self.is_staff = True
-
-        
         elif self.tipo_usuario == "admin":
+            # admin institucional: acesso ao admin, mas não superuser
             self.is_staff = True
-            self.is_superuser = False
-
-        
         else:
             self.is_staff = False
+
         super().save(*args, **kwargs)
 
     def __str__(self):

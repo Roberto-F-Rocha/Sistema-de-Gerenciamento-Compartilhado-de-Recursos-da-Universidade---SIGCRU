@@ -2,10 +2,12 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
 from .models import Solicitacao
 
+
 def listar_solicitacoes(user: User):
     if user.is_staff:
-        return Solicitacao.objects.all()
-    return Solicitacao.objects.filter(usuario=user)
+        return Solicitacao.objects.all().order_by("-data_criacao")
+
+    return Solicitacao.objects.filter(usuario=user).order_by("-data_criacao")
 
 def obter_solicitacao(solicitacao_id: int, user: User):
     solicitacao = get_object_or_404(Solicitacao, id=solicitacao_id)
@@ -17,6 +19,7 @@ def obter_solicitacao(solicitacao_id: int, user: User):
 
 def criar_solicitacao(validated_data, user: User):
     return Solicitacao.objects.create(usuario=user, **validated_data)
+
 
 def atualizar_solicitacao(solicitacao: Solicitacao, validated_data, user: User):
     if not user.is_staff and solicitacao.usuario != user:

@@ -31,3 +31,13 @@ class Solicitacao(models.Model):
 
     def __str__(self):
         return f"{self.tipo} - {self.status} ({self.usuario.username})"
+    
+
+    class Meta:
+        permissions = [
+            ("create_solicitacao", "Pode criar solicitação"),
+            ("approve_solicitacao", "Pode aprovar solicitação"),
+        ]
+
+        def __str__(self):
+            return f"Solicitação #{self.pk}"

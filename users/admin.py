@@ -4,26 +4,13 @@ from .models import User
 
 @admin.register(User)
 class CustomUserAdmin(UserAdmin):
-    #Campos exibidos na listagem
-    list_display = ("username", "email", "tipo_usuario", "is_active")
-    list_filter = ("tipo_usuario", "is_active")
-
-    #campos aparecem ao editar um usuário
-    fieldsets = (
-        ("Dados de Login", {"fields": ("username", "password")}),
-        ("Informações Pessoais", {"fields": ("first_name", "last_name", "email", "matricula")}),
-        ("Perfil Institucional", {"fields": ("tipo_usuario",)}),
-        ("Permissões", {"fields": ("is_active", "groups", "user_permissions")}),
-        ("Datas Importantes", {"fields": ("last_login", "date_joined")}),
+    model = User
+    list_display = ("username", "email", "tipo_usuario", "is_active", "is_staff")
+    list_filter = ("tipo_usuario", "is_staff", "is_superuser")
+    fieldsets = UserAdmin.fieldsets + (
+        ("Informações Institucionais", {"fields": ("matricula", "tipo_usuario")}),
     )
-
-    #Campos ao criar um novo usuário via admin
-    add_fieldsets = (
-        (None, {
-            "classes": ("wide",),
-            "fields": ("username", "email", "password1", "password2", "tipo_usuario", "matricula"),
-        }),
+    add_fieldsets = UserAdmin.add_fieldsets + (
+        ("Informações Institucionais", {"fields": ("matricula", "tipo_usuario")}),
     )
-
     search_fields = ("username", "email", "matricula")
-    ordering = ("username",)
