@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Patrimonio, Localizacao
+from .models import Patrimonio, Localizacao, EspacoFisico
 
 
 @admin.register(Localizacao)
@@ -13,3 +13,12 @@ class PatrimonioAdmin(admin.ModelAdmin):
     search_fields = ('nome', 'numero_tombo', 'descricao', 'localizacao__nome')
     list_filter = ('status', 'localizacao')
     autocomplete_fields = ('localizacao',)
+
+
+@admin.register(EspacoFisico)
+class EspacoFisicoAdmin(admin.ModelAdmin):
+    list_display = ('id', 'nome', 'tipo', 'localizacao')
+    search_fields = ('nome', 'tipo', 'localizacao__nome')
+    list_filter = ('tipo', 'localizacao')
+    autocomplete_fields = ('localizacao', 'recursos')
+    filter_horizontal = ('recursos',)  # facilita selecionar múltiplos patrimônios

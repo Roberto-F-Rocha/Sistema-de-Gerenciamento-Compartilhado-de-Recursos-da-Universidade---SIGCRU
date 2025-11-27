@@ -11,7 +11,6 @@ from .services import (
     deletar_patrimonio,
 )
 
-
 class PatrimonioViewSet(viewsets.ModelViewSet):
     serializer_class = PatrimonioSerializer
 
@@ -32,3 +31,4 @@ class PatrimonioViewSet(viewsets.ModelViewSet):
 
     def perform_destroy(self, instance):
         deletar_patrimonio(instance)
+        
