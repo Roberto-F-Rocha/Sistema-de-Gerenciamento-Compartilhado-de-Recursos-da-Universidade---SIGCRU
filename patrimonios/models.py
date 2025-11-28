@@ -9,7 +9,7 @@ class Patrimonio(models.Model):
 
     # ALTERAÇÃO: agora é FK, mas mantendo o nome original
     localizacao = models.ForeignKey(
-        Localizacao,
+        "EspacoFisico",
         on_delete=models.SET_NULL,
         null=True,
         blank=True
