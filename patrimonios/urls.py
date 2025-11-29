@@ -7,5 +7,5 @@ router.register(r'patrimonios', PatrimonioViewSet, basename='patrimonio')
 
 urlpatterns = [
     path('', include(router.urls)),
+    path('', include("patrimonios.api.urls_localizacao")),
 ]
-
