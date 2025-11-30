@@ -12,16 +12,16 @@ class ManutencaoSerializer(serializers.ModelSerializer):
         status = attrs.get("status", getattr(self.instance, "status", None))
         data_fim = attrs.get("data_fim")
 
-        # Se status != concluída, data_fim NÃO pode ser enviada
+        # Se status != concluido, data_fim NÃO pode ser enviada
         if status != "concluida" and data_fim is not None:
             raise serializers.ValidationError({
-                "data_fim": "Só é permitido informar a data_fim quando o status for 'concluida'."
+                "data_fim": "Só é permitido informar a data_fim quando o status for 'concluido'."
             })
 
         # Se status = concluída, data_fim é obrigatória
-        if status == "concluida" and data_fim is None:
+        if status == "concluido" and data_fim is None:
             raise serializers.ValidationError({
-                "data_fim": "Quando a manutenção for concluída, é obrigatório informar a data_fim."
+                "data_fim": "Quando a manutenção for concluido, é obrigatório informar a data_fim."
             })
 
         return attrs

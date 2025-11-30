@@ -5,6 +5,8 @@ from django.conf import settings
 
 class Localizacao(models.Model):
     nome = models.CharField(max_length=255, unique=True)
+    bloco = models.CharField(max_length=100, blank=True)
+    tipo = models.CharField(max_length=100, blank=True)
 
     def __str__(self):
         return self.nome

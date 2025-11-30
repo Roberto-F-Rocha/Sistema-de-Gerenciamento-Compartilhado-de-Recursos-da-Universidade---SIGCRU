@@ -7,10 +7,6 @@ class ManutencaoAdmin(admin.ModelAdmin):
     search_fields = ('patrimonio__nome', 'descricao', 'usuario__username')
 
     def get_fieldsets(self, request, obj=None):
-        """
-        Controla a exibição de 'data_fim' no fieldset 'Datas' 
-        baseado no status do objeto (exibição condicional).
-        """
         fieldsets = [
             (None, {
                 "fields": ("patrimonio", "usuario", "descricao", "status")
@@ -30,13 +26,9 @@ class ManutencaoAdmin(admin.ModelAdmin):
         return fieldsets
 
     def save_model(self, request, obj, form, change):
-        """
-        Salva o objeto e garante que data_fim seja apagada (setada para None) 
-        se o status NÃO for 'concluida'.
-        """
         # Se o status for alterado para algo diferente de 'concluida',
         # a data de fim deve ser zerada.
-        if obj.status != "concluida":
+        if obj.status != "concluido":
             obj.data_fim = None
             
         super().save_model(request, obj, form, change)

@@ -19,7 +19,7 @@ class Manutencao(models.Model):
         choices=[
             ('pendente', 'Pendente'),
             ('em_andamento', 'Em andamento'),
-            ('concluida', 'Concluída')
+            ('concluido', 'Concluido')
         ],
         default='pendente'
     )
