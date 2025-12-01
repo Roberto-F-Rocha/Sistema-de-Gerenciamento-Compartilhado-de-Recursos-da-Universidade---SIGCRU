@@ -7,13 +7,15 @@ class UserRegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ["username", "email", "password", "tipo_usuario"]
+        fields = ["username", "email", "password", "tipo_usuario", "nome_completo", "matricula"]
 
     def create(self, validated_data):
         user = User(
             username=validated_data["username"],
             email=validated_data["email"],
-            tipo_usuario=validated_data.get("tipo_usuario")
+            tipo_usuario=validated_data.get("tipo_usuario"),
+            nome_completo=validated_data.get("nome_completo"),
+            matricula=validated_data.get("matricula"),
         )
         user.set_password(validated_data["password"])
         user.save()

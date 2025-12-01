@@ -3,7 +3,7 @@ from solicitacoes.models import Solicitacao
 
 class SolicitacaoSerializer(serializers.ModelSerializer):
     patrimonio_nome = serializers.CharField(source="patrimonio.nome", read_only=True)
-
+    
     class Meta:
         model = Solicitacao
         fields = [
