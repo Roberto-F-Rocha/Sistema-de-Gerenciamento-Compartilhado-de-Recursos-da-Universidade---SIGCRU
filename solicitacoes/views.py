@@ -2,11 +2,9 @@ from rest_framework import viewsets, permissions, generics
 from .models import Solicitacao
 from .serializers import SolicitacaoSerializer
 from rest_framework.decorators import action
-<<<<<<< HEAD
 
-=======
+
 from rest_framework.response import Response
->>>>>>> 21ccf7cc82062a13b866ac4834b85e743256f6ce
 
 from .services import (
     listar_solicitacoes,
@@ -37,9 +35,8 @@ class SolicitacaoViewSet(viewsets.ModelViewSet):
     def minhas(self, request):
         qs = Solicitacao.objects.filter(usuario=request.user).order_by("-data_criacao")
         serializer = self.get_serializer(qs, many=True)
-<<<<<<< HEAD
-        return Response(serializer.data)
-=======
         return Response(serializer.data)
 
->>>>>>> 21ccf7cc82062a13b866ac4834b85e743256f6ce
+        return Response(serializer.data)
+
+
