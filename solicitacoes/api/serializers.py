@@ -8,6 +8,7 @@ class SolicitacaoSerializer(serializers.ModelSerializer):
         model = Solicitacao
         fields = [
             "id",
+            "titulo",
             "patrimonio",
             "patrimonio_nome",
             "descricao",

@@ -3,8 +3,11 @@ from .models import Patrimonio, Localizacao
 
 class PatrimonioSerializer(serializers.ModelSerializer):
     # permite criar nova localização digitando
-    localizacao_nome = serializers.CharField(write_only=True, required=False)
-    localizacao_bloco = serializers.CharField(write_only=True, required=False)
+    localizacao_nome_bloco = serializers.CharField(
+        source='localizacao.nome_bloco',
+        read_only=True
+    )
+    
     localizacao_tipo = serializers.CharField(write_only=True, required=False)
 
     class Meta:

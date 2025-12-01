@@ -7,6 +7,11 @@ class Localizacao(models.Model):
     nome = models.CharField(max_length=255, unique=True)
     bloco = models.CharField(max_length=100, blank=True)
     tipo = models.CharField(max_length=100, blank=True)
+    
+    def nome_bloco(self):
+        if self.bloco:
+            return f"{self.nome} - {self.bloco}"
+        return self.nome_bloco
 
     def __str__(self):
         return self.nome

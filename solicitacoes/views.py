@@ -1,6 +1,8 @@
 from rest_framework import viewsets, permissions, generics
 from .models import Solicitacao
 from .serializers import SolicitacaoSerializer
+from rest_framework.decorators import action
+
 
 from .services import (
     listar_solicitacoes,
@@ -27,9 +29,8 @@ class SolicitacaoViewSet(viewsets.ModelViewSet):
     def perform_destroy(self, instance):
         deletar_solicitacao(instance, self.request.user)
 
-class MinhasSolicitacoesView(generics.ListAPIView):
-    serializer_class = SolicitacaoSerializer
-    permission_classes = [permissions.IsAuthenticated]
-
-    def get_queryset(self):
-        return Solicitacao.objects.filter(usuario=self.request.user).order_by("-data_criacao")
+    @action(detail=False, methods=["get"], url_path="minhas")
+    def minhas(self, request):
+        qs = Solicitacao.objects.filter(usuario=request.user).order_by("-data_criacao")
+        serializer = self.get_serializer(qs, many=True)
+        return Response(serializer.data)

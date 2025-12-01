@@ -8,6 +8,13 @@ class User(AbstractUser):
         ("servidor", "Servidor"),
         ("admin", "Administrador"),
     ]
+    
+    nome_completo = models.CharField(
+        max_length=150,
+        null=True,
+        blank=True,
+        help_text="Nome completo do usuário"
+    )
 
     matricula = models.CharField(
         max_length=20,
