@@ -13,7 +13,7 @@ class ManutencaoSerializer(serializers.ModelSerializer):
         data_fim = attrs.get("data_fim")
 
         # Se status != concluido, data_fim NÃO pode ser enviada
-        if status != "concluida" and data_fim is not None:
+        if status != "concluido" and data_fim is not None:
             raise serializers.ValidationError({
                 "data_fim": "Só é permitido informar a data_fim quando o status for 'concluido'."
             })
