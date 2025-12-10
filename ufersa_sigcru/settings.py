@@ -47,6 +47,7 @@ INSTALLED_APPS = [
 
     # Apps do projeto
     'patrimonios',
+    'historico.apps.HistoricoConfig',
     'manutencoes',
     'solicitacoes',
 ]
