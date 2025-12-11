@@ -2,10 +2,15 @@ from rest_framework import serializers
 from .models import Solicitacao
 
 class SolicitacaoSerializer(serializers.ModelSerializer):
+    patrimonio_nome = serializers.CharField(
+        source='patrimonio.nome',
+        read_only=True
+    )
+
     class Meta:
         model = Solicitacao
         fields = '__all__'
-        read_only_fields = ['usuario']
+        read_only_fields = ['usuario', 'patrimonio_nome']
 
     def create(self, validated_data):
         request = self.context.get('request')
