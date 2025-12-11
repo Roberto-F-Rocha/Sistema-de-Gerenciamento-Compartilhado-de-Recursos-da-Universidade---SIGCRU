@@ -4,13 +4,24 @@ from django.conf import settings
 
 
 class Localizacao(models.Model):
+    TIPO_CHOICES = [
+        ("Sala de Aula", "Sala de Aula"),
+        ("Laboratório", "Laboratório"),
+        ("Auditório", "Auditório"),
+        ("Sala de Professor / Projeto", "Sala de Professor / Projeto"),
+        ("Ginásio", "Ginásio"),
+        ("Sala Administrativa", "Sala Administrativa"),
+        ("Área Externa", "Área Externa"),
+    ]
+
     nome = models.CharField(max_length=255, unique=True)
     bloco = models.CharField(max_length=100, blank=True)
-    
+    tipo = models.CharField(max_length=50, choices=TIPO_CHOICES, default="Sala de Aula")
+
     def nome_bloco(self):
         if self.bloco:
             return f"{self.nome} - {self.bloco}"
-        return self.nome_bloco
+        return self.nome  # corrigido
 
     def __str__(self):
         return self.nome
@@ -21,7 +32,6 @@ class Patrimonio(models.Model):
     descricao = models.TextField(blank=True)
     numero_tombo = models.CharField(max_length=50, unique=True)
 
-    # ALTERAÇÃO: agora é FK, mas mantendo o nome original
     localizacao = models.ForeignKey(
         Localizacao,
         on_delete=models.SET_NULL,
