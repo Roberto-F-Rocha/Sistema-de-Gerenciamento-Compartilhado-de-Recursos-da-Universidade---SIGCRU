@@ -14,7 +14,7 @@ class Localizacao(models.Model):
         ("Área Externa", "Área Externa"),
     ]
 
-    nome = models.CharField(max_length=255, unique=True)
+    nome = models.CharField(max_length=255)
     bloco = models.CharField(max_length=100, blank=True)
     tipo = models.CharField(max_length=50, choices=TIPO_CHOICES, default="Sala de Aula")
 
